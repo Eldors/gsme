@@ -1,3 +1,22 @@
-p {
-    color: aqua;
+.field {
+    height: 320px;
+    width: 800px;
+    display: grid;
+    grid-template-rows: 80px 80px 80px 80px 80px;
+  grid-template-columns: 80px 80px 80px 80px 80px 80px 80px 80px 80px 80px;
+    margin: 5px auto;
+    padding: 0;
 }
+
+.field > div {
+    padding: 0;
+    border: solid 1px aqua;
+    text-align: center;
+}
+
+.heroe {
+     background-color: black;
+    color:  white;
+    border: solid 2px black;
+    border-radius: 5px;
+}  
