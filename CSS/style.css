@@ -12,10 +12,16 @@
     padding: 0;
     border: solid 1px aqua;
     text-align: center;
+    position: relative;
 }
 
 .heroe {
-     background-color: black;
+    width:  80%;
+    height: 80%;
+    top: 10%;
+    left: 10%;
+    position: absolute;
+    background-color: black;
     color:  white;
     border: solid 2px black;
     border-radius: 5px;

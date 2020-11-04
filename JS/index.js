@@ -2,7 +2,7 @@
 
 const field = document.querySelector('.field');
 
-const cell = document.querySelectorAll('.field div');
+const cell = field.children;
 
 const widthCell = cell[0].offsetWidth;
 
@@ -17,8 +17,8 @@ function numberingCell () {
 
     for (let i = 0; i < amountRows; i++) {
         for (let j = 0; j < amountColumns; j++) {
-            cell[(j + i * 10)].id = `${R} ${C}`;
-            C++;
+                cell[(j + i * 10)].id = `${R} ${C}`;
+                C++;
         }
         R++;
         C = 0;
@@ -31,7 +31,8 @@ function moveHeroe (event) {
     if(!event.target.matches('.field div')) return 
 
     const elemEvent = event.target;
-    const Heroe = document.querySelector('.heroe');
+    const Heroe = document.querySelector('.heroe').parentElement;
+    console.log('Heroe: ', Heroe);
 
     const coordinatesEvent = elemEvent.id;
     const coodrinatesHeroe = Heroe.id;
@@ -51,8 +52,15 @@ function moveHeroe (event) {
             || secondCoordEvent == secondCoordHeroe + 1 
             || secondCoordEvent == secondCoordHeroe - 1)) 
         {
-            Heroe.classList.remove('heroe');
-            elemEvent.classList.add('heroe');
+            console.log(1);
+            const heroeNow = document.querySelector('.heroe');
+            const containerHeroe = document.createElement('div');
+
+            containerHeroe.className = 'heroe';
+
+            Heroe.removeChild(heroeNow);
+            elemEvent.appendChild(containerHeroe);
+           
         }
     }
 }
