@@ -1,28 +1,65 @@
 .field {
-    height: 320px;
-    width: 800px;
+    height: 300px;
+    width: 300px;
     display: grid;
-    grid-template-rows: 80px 80px 80px 80px 80px;
-  grid-template-columns: 80px 80px 80px 80px 80px 80px 80px 80px 80px 80px;
+    grid-template-rows: repeat(5, 1fr);
+  grid-template-columns: repeat(5, 1fr);
     margin: 5px auto;
     padding: 0;
 }
 
+
 .field > div {
+    display: grid;
     padding: 0;
+    margin: -0.5px;
     border: solid 1px aqua;
     text-align: center;
     position: relative;
 }
 
-.heroe {
-    width:  80%;
-    height: 80%;
-    top: 10%;
-    left: 10%;
+.top-wall {
     position: absolute;
+    width: 100%;
+    height: 10%;
+    top: 0%;  
+    background-color: red;
+}
+
+.right-wall {
+    position: absolute;
+    width: 10%;
+    height: 100%;
+    right: 0%;
+    background-color: red;
+}
+
+.bottom-wall {
+    position: absolute;
+    width: 100%;
+    height: 10%;
+    bottom: 0%;
+    background-color: red;
+}
+
+.left-wall {
+    position: absolute;
+    width: 10%;
+    height: 100%;
+    left: 0%;
+    background-color: red;
+}
+
+.heroe {
+    position: absolute;
+    width:  50%;
+    height: 50%;
+    top: 25%;
+    left: 25%;
+    
     background-color: black;
     color:  white;
     border: solid 2px black;
-    border-radius: 5px;
+    border-radius: 15px;
 }  
+

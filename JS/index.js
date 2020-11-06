@@ -4,12 +4,9 @@ const field = document.querySelector('.field');
 
 const cell = field.children;
 
-const widthCell = cell[0].offsetWidth;
+const amountColumns = 5;
+const amountRows = 5;
 
-const amountColumns = 10;
-const amountRows = 3;
-
-cell[(amountColumns * amountRows) - 1].id = `${amountColumns}.${amountRows}`;
 
 function numberingCell () {
     let C = 0;  //column number 
@@ -17,7 +14,7 @@ function numberingCell () {
 
     for (let i = 0; i < amountRows; i++) {
         for (let j = 0; j < amountColumns; j++) {
-                cell[(j + i * 10)].id = `${R} ${C}`;
+                cell[(j + i * 5)].id = `${R} ${C}`;
                 C++;
         }
         R++;
@@ -32,7 +29,6 @@ function moveHeroe (event) {
 
     const elemEvent = event.target;
     const Heroe = document.querySelector('.heroe').parentElement;
-    console.log('Heroe: ', Heroe);
 
     const coordinatesEvent = elemEvent.id;
     const coodrinatesHeroe = Heroe.id;
@@ -52,18 +48,37 @@ function moveHeroe (event) {
             || secondCoordEvent == secondCoordHeroe + 1 
             || secondCoordEvent == secondCoordHeroe - 1)) 
         {
-            console.log(1);
             const heroeNow = document.querySelector('.heroe');
             const containerHeroe = document.createElement('div');
 
             containerHeroe.className = 'heroe';
 
             Heroe.removeChild(heroeNow);
-            elemEvent.appendChild(containerHeroe);
-           
+            elemEvent.appendChild(containerHeroe);       
         }
     }
 }
 
-field.addEventListener('click', moveHeroe);
+function createWall (numberCell, side) {
+    const containerWall = document.createElement('div');
+    const parentContainer = document.getElementById(numberCell);
+    console.log('parentContainer: ', parentContainer);
 
+    if ( side == 1 )  containerWall.className = 'top-wall'
+    else if ( side == 2 )   containerWall.className = 'right-wall'
+    else if ( side == 3 )   containerWall.className = 'bottom-wall'
+    else if ( side == 4 )   containerWall.className = 'left-wall';
+    else return;
+    //parentContainer.innerHTML = '';
+    parentContainer.appendChild(containerWall);
+
+}
+
+createWall('0 4', 2);
+createWall('0 4', 3);
+createWall('1 0', 4);
+createWall('0 4', 1);
+
+
+
+field.addEventListener('click', moveHeroe);
