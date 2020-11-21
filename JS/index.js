@@ -1,84 +1,59 @@
 'use strict'
 
-const field = document.querySelector('.field');
+const game = document.querySelector('.game')
+const container = document.querySelector('.container');
+const playingGame = document.querySelector('.playing-game');
+const cell = document.querySelectorAll('.cell');
 
-const cell = field.children;
+function getQuantityColumnsAndRow(width, height) {
+    const cellWidth = cell[0].offsetWidth;
+    const cellHeight = cellWidth;
 
-const amountColumns = 5;
-const amountRows = 5;
+    let maybeQuantityColumns = Math.floor(width / cellWidth);
+    let maybeQuantityRows = Math.floor(height / cellHeight);
 
+    while ((maybeQuantityColumns * cellWidth) + maybeQuantityColumns -1 > width) {
+        maybeQuantityColumns--;
+    }
+
+    while ((maybeQuantityRows * cellHeight) + maybeQuantityRows -1 > height) {
+        maybeQuantityRows--;
+        
+    }
+
+    return [maybeQuantityColumns, maybeQuantityRows];
+};
+
+let arrColRow = getQuantityColumnsAndRow(playingGame.offsetWidth, playingGame.offsetHeight);
 
 function numberingCell () {
-    let C = 0;  //column number 
-    let R = 0;  //row number
-
-    for (let i = 0; i < amountRows; i++) {
-        for (let j = 0; j < amountColumns; j++) {
-                cell[(j + i * 5)].id = `${R} ${C}`;
-                C++;
+    for (let i = 0; i < arrColRow[0]; i++) {
+        for (let j = 0; j < arrColRow[1]; j++) {
+                cell[(j + i * 5)].id = `${i} ${j}`;
         }
-        R++;
-        C = 0;
     }
-}
+};
 
 numberingCell();
 
-function moveHeroe (event) {
-    if(!event.target.matches('.field div')) return 
+function mouseMoveHeroe(event) {
+    if(!event.target.matches('.playing-game div.cell')) return 
 
-    const elemEvent = event.target;
-    const Heroe = document.querySelector('.heroe').parentElement;
+    const heroe = document.querySelector('.heroe');
 
-    const coordinatesEvent = elemEvent.id;
-    const coodrinatesHeroe = Heroe.id;
+    const mouseClickCoord = [Number(event.target.id.split(' ')[0]), Number(event.target.id.split(' ')[1])];
+    const heroeCoord = [Number(heroe.parentElement.id.split(' ')[0]), Number(heroe.parentElement.id.split(' ')[1])];
 
-    const firstCoordEvent = Number(coordinatesEvent.split(' ')[0]);
-    const firstCoordHeroe = Number(coodrinatesHeroe.split(' ')[0]);
+    if (mouseClickCoord[0] == heroeCoord[0] && mouseClickCoord[1] == heroeCoord[1]) return
 
-    const secondCoordEvent = Number(coordinatesEvent.split(' ')[1]);
-    const secondCoordHeroe = Number(coodrinatesHeroe.split(' ')[1]);
+    if (!((Math.abs(mouseClickCoord[0] - heroeCoord[0]) == 1 && 
+         Math.abs(mouseClickCoord[1] - heroeCoord[1]) == 0) || 
+        (Math.abs(mouseClickCoord[1] - heroeCoord[1]) == 1 && 
+         Math.abs(mouseClickCoord[0] - heroeCoord[0]) == 0))) return
+    
+    event.target.appendChild(heroe);   
+};
 
-    if (coordinatesEvent != coodrinatesHeroe)  {
-        if ((firstCoordEvent == firstCoordHeroe 
-            || firstCoordEvent == firstCoordHeroe + 1 
-            || firstCoordEvent == firstCoordHeroe - 1) 
-            && 
-            (secondCoordEvent == secondCoordHeroe 
-            || secondCoordEvent == secondCoordHeroe + 1 
-            || secondCoordEvent == secondCoordHeroe - 1)) 
-        {
-            const heroeNow = document.querySelector('.heroe');
-            const containerHeroe = document.createElement('div');
-
-            containerHeroe.className = 'heroe';
-
-            Heroe.removeChild(heroeNow);
-            elemEvent.appendChild(containerHeroe);       
-        }
-    }
-}
-
-function createWall (numberCell, side) {
-    const containerWall = document.createElement('div');
-    const parentContainer = document.getElementById(numberCell);
-    console.log('parentContainer: ', parentContainer);
-
-    if ( side == 1 )  containerWall.className = 'top-wall'
-    else if ( side == 2 )   containerWall.className = 'right-wall'
-    else if ( side == 3 )   containerWall.className = 'bottom-wall'
-    else if ( side == 4 )   containerWall.className = 'left-wall';
-    else return;
-    //parentContainer.innerHTML = '';
-    parentContainer.appendChild(containerWall);
-
-}
-
-createWall('0 4', 2);
-createWall('0 4', 3);
-createWall('1 0', 4);
-createWall('0 4', 1);
+playingGame.addEventListener('click', mouseMoveHeroe);
 
 
-
-field.addEventListener('click', moveHeroe);
